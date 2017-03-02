@@ -1,0 +1,95 @@
+﻿#selectContainer {
+    padding: 0 2.4rem 2.4rem 2.4rem;
+    background-color: #fafafa;
+}
+
+.extra > .switch {
+    margin-left: 2px;
+    margin-bottom: 9pt !important;
+}
+
+.seeAll
+{
+    float: right;
+    margin-right: 4%;
+}
+
+.select {
+    padding-left: 2.4rem;
+    padding-bottom: 10px;
+}
+
+.select > h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.select > .selectTile {
+    width: 30% !important;
+    margin-right : 3% !important;
+    margin-left: 0 !important;
+}
+
+.select > .selectTile.selectAirportTile {
+    width: 45% !important;
+}
+
+.select > .selectedTile {
+    width: 90% !important;
+    outline: #e57373 solid 3px !important;
+    cursor: default !important;
+    margin: 0 5% 5% 0;
+}
+
+#rent {
+    width: 100%;
+}
+
+#rentImageCar {
+    position: absolute;
+    background-color: #3f51b5;
+    z-index: 3;
+    display: inline;
+}
+
+#rentText {
+    position: absolute;
+    z-index: 1;
+    display: inline;
+    font-size: 4.8rem;
+    line-height: 120px;
+    left: 0;
+    right: 0;
+}
+
+#rentMask {
+    position: absolute;
+    z-index: 2;
+    background-color: #3f51b5;
+    display: inline;
+    height: 100%;
+    left: 0;
+    right: 0;
+}
+
+.full > img{
+    width: 100%;
+    height: 100%;
+}
+
+.no-space{
+    margin-top: 0 !important;
+}
+
+.fixed[class*="span"] {
+    height: 220px;
+}
+.metro .button-set .button, .metro .button-set button{
+    float: none;
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+}
+.tile .tile-content.tile-text{
+    padding: 10px;
+}

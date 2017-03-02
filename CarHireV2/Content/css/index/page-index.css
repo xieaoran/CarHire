@@ -1,0 +1,60 @@
+﻿.image-container > .overlay-fluid > p {
+    color: #fafafa;
+}
+.metro .grid .row .span10 > .row{
+    margin-top: 0 !important;
+}
+.details {
+    font-weight: 300 !important;
+    float: right;
+}
+.containers {
+    padding: 2.4rem;
+}
+
+.containers > h1 {
+    margin: 0;
+}
+
+.headersContent {
+    display: inline;
+    font-weight: 300 !important;
+}
+.dialogContent.first img{
+    display: inline-block;
+    width: 60%;
+    vertical-align: top;
+}
+.dialogContent.first p{
+    display: inline-block;
+    width: 38%;
+    padding: 30px;
+}
+.dialogContent.second img{
+    display: inline-block;
+    width: 43%;
+    vertical-align: top;
+}
+.dialogContent.second p{
+    display: inline-block;
+    width: 55%;
+    padding: 30px;
+}
+.dialogContent.second{
+    margin-top: 30px;
+}
+.panel-content {
+    background-color: #fafafa !important;
+    white-space: normal;
+    word-break: break-all;
+}
+
+.seeAll{
+    float: right;
+}
+.no-space{
+    margin-top: 0 !important;
+}
+hr {
+    margin: 10px 0 !important;
+}

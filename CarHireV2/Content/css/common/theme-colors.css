@@ -1,0 +1,97 @@
+﻿.container > .grid > .row{
+    background-color: #fafafa;
+}
+
+.warningLight, .activityLight {
+    background-color: #ffcdd2 !important;
+}
+
+.warningDark, .activityDark {
+    background-color: #e57373 !important;
+}
+
+.warningBorder, .activityBorder {
+    border: 1px #e57373 solid !important;
+}
+
+.carsLight {
+    background-color: #ffe0b2 !important;
+}
+
+.carsDark {
+    background-color: #ffb74d !important;
+}
+
+.carsBorder {
+    border: 1px #ffb74d solid !important;
+}
+.planeSelectLight, .timeLight{
+    background-color: #c5cae9;
+    padding-right: 2.4rem;
+}
+.planeSelectDark, .timeDark{
+    background-color: #7986cb;
+}
+.planeSelectBorder, .timeSelectBorder{
+    border: 1px #7986cb solid !important;
+}
+.driversLight, .primaryLight, .shareLight {
+    background-color: #b2ebf2 !important;
+}
+.driversDark, .primaryDark, .shareDark {
+    background-color: #4dd0e1 !important;
+}
+
+.driversBorder, .primaryBorder, .shareBorder {
+    border: 1px #4dd0e1 solid !important;
+}
+
+.routeLight, .suggestionsLight {
+    background-color: #f0f4c3 !important;
+}
+
+.routeDark, .suggestionsDark {
+    background-color: #dce775 !important;
+}
+
+.routeBorder, .suggestionsBorder {
+    border: 1px #dce775 solid !important;
+}
+.orderLight{
+    background-color: #dcedc8 !important;
+}
+.orderDark{
+    background-color: #aed581 !important;
+}
+.orderBorder{
+    border: 1px #aed581 solid !important;
+}
+.infoLight{
+    background-color:#ffe0b2 !important;
+}
+.infoDark{
+    background-color:#ffb74d !important;
+}
+.infoBorder{
+    border: 1px #ffb74d solid !important;
+}
+.dateLight {
+    background-color: #d1c4e9 !important;
+    padding-right: 2.4rem;
+}
+.extraLight {
+    background-color: #d7ccc8 !important;
+}
+.noteLight{
+    background-color: #e0e0e0;
+    padding-right:2.4rem;
+}
+.error-state{
+    border: 2px #e51400 solid;
+}
+.success-state{
+    border: 2px #60a917 solid;
+}
+.info-state{
+    border: 2px #4390df solid;
+}

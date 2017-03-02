@@ -1,0 +1,58 @@
+﻿td > button{
+    margin-top: 0 !important;
+}
+.table{
+    margin-bottom:0 !important;
+}
+.table thead th, .table thead td{
+    border-bottom: none !important;
+}
+.table th, .metro .table td{
+    vertical-align: middle;
+    text-align: center;
+}
+.containers {
+    padding: 2.4rem;
+}
+
+.containers > h1 {
+    margin: 0;
+}
+
+.panel-content {
+    background-color: #fafafa !important;
+}
+
+.headersContent {
+    display: inline;
+    font-weight: 300 !important;
+}
+.metro .tab-control > .frames{
+    margin-top:0;
+    border-top: 2px #aed581 solid;
+}
+.metro .tab-control > .frames > .frame{
+padding:0;
+}
+.metro .tab-control > .tabs > li > a{
+    border: none !important;
+}
+.metro .tab-control > .tabs > li.active a{
+    background-color: #8bc34a;
+    color: #fafafa;
+}
+textarea {
+    display: block;
+}
+.reviewRow > .span3
+{
+    padding: 10px;
+}
+.seeAll
+{
+    float: right;
+    margin-top: 9px;
+}
+a:focus,a:active {
+    color: #222
+}

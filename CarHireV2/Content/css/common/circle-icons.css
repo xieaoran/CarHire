@@ -1,0 +1,53 @@
+﻿.circle {
+    width: 60px;
+    height: 60px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.circle > .fa {
+    position: absolute;
+    font-size: 42px;
+}
+.circle > .fa-check{
+    margin: 9px;
+}
+.circle > .fa-arrow-up{
+    margin: 9px 10px;
+}
+.circle > .fa-calendar{
+    margin: 9px 10px;
+}
+.circle > .fa-car{
+    margin: 9px 6px;
+}
+.circle > .fa-cog{
+    margin: 9px 12px;
+}
+.circle > .fa-clock-o{
+    margin: 9px 12px;
+}
+.circle > .fa-pencil-square-o{
+    margin: 9px;
+}
+.circle > .fa-university{
+    margin: 9px 6px;
+}
+.circle > .fa-user
+{
+    margin: 9px 13px;
+}
+.circle > .fa-plane{
+    margin: 9px 13px;
+}
+.caption .btn-close{
+    margin-top: 0!important;;
+}
+.caption .btn-close:after{
+    left: 45% !important;
+}
+.carousel > .slide > .cover1 > img {
+    width: 100% !important;
+}

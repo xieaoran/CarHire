@@ -1,0 +1,241 @@
+﻿@model List<CarHireV2.Models.Car>
+@{
+    ViewBag.Title = "车型一览";
+}
+@section LoadCSS{
+    @Styles.Render("~/Content/css/car/page-car.css")
+}
+@section LoadJS{
+    @Scripts.Render("~/Content/js/metro/metro-carousel.js")
+    @Scripts.Render("~/Content/js/metro/metro-listview.js")
+    @Scripts.Render("~/Content/js/metro/metro-progressbar.js")
+    @Scripts.Render("~/Content/js/carHire/car.js")
+}
+@section BodyHandlers{
+    @{
+        var detailCar = HttpContext.Current.Request.Cookies["detailCarType"];
+        var detailCarController = ViewData["DetailCarType"];
+        int id;
+        if (detailCarController != null)
+        {
+            id = (int)detailCarController;
+        }
+        else if (detailCar != null)
+        {
+            id = int.Parse(detailCar.Value);
+        }
+        else
+        {
+            id = Model.Any() ? Model[0].ID : -1;
+        }
+    }
+    onresize="resize()" onload="loadCar(@id)"
+}
+
+<div class="grid fluid">
+    <div class="row no-space">
+        <div class="span10 offset1">
+            <div class="row no-space">
+                <div class="span3">
+                    <div class="listview-outlook" data-role="listview">
+                        @foreach (var car in Model)
+                        {
+                            var carStr = "carType" + car.ID;
+                            <a href="#" id="@carStr" class="list" onmouseover="expand(@car.ID, false)" onclick="showDetail()">
+                                <div class="list-content">
+                                    <span class="list-title">@car.Name</span>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="span9" id="detailContainer" style="display:none">
+                    <div class="row detailRow">
+                        <div class="span12">
+                            <div id="carPictures" class="carousel" data-role="carousel">
+                                <div class="slide normalSlide">
+                                    <div class="cover1">
+                                        <img id="detailImage1" />
+                                    </div>
+                                    <div class="description text">
+                                        <p id="detail1" class="fg-white"></p>
+                                        <button class="large carsDark select">
+                                            就是它了
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="slide normalSlide">
+                                    <div class="cover1">
+                                        <img id="detailImage2" />
+                                    </div>
+                                    <div class="description text">
+                                        <p id="detail2" class="fg-white"></p>
+                                        <button class="large carsDark select">
+                                            就是它了
+                                        </button>
+                                    </div>
+                                </div>
+                                <a class="controls left">
+                                    <i class="fa fa-angle-left">
+                                    </i>
+                                </a><a class="controls right">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12 carDetail">
+                            <div class="tab-control" data-role="tab-control">
+                                <ul class="tabs">
+                                    <li class="active"><a href="#_page_1">基本信息</a></li>
+                                    <li><a href="#_page_2">用户评价</a></li>
+                                </ul>
+
+                                <div class="frames">
+                                    <div class="frame" id="_page_1">
+                                        <div class="listview">
+                                            <a href="#" class="list">
+                                                <div class="list-content">
+                                                    <i class="icon fa fa-tachometer"></i>
+
+                                                    <div class="data">
+                                                        <span class="list-title">速度</span>
+
+                                                        <div class="progress-bar large"
+                                                             data-animate="true"
+                                                             data-role="progress-bar"
+                                                             data-color="bg-progress"
+                                                             id="speedPercentage"></div>
+
+                                                        <span class="list-remark" id="speed"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list">
+                                                <div class="list-content">
+                                                    <i class="icon fa fa-fire"></i>
+
+                                                    <div class="data">
+                                                        <span class="list-title">油耗</span>
+
+                                                        <div class="progress-bar large"
+                                                             data-animate="true"
+                                                             data-role="progress-bar"
+                                                             data-color="bg-progress"
+                                                             id="oilCostPercentage"></div>
+
+                                                        <span class="list-remark" id="oilCost"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            <a href="#" class="list">
+                                                <div class="list-content">
+                                                    <i class="icon fa fa-jpy"></i>
+
+                                                    <div class="data">
+                                                        <span class="list-title">价格</span>
+
+                                                        <div class="progress-bar large"
+                                                             data-animate="true"
+                                                             data-role="progress-bar"
+                                                             data-color="bg-progress"
+                                                             id="pricePercentage"></div>
+
+                                                        <span class="list-remark" id="price"></span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="frame" id="_page_2">
+                                        <div class="row">
+                                            <div class="span2">
+                                                <div class="input-control radio default-style" data-role="input-control">
+                                                    <label>
+                                                        <input class="radioButton" type="radio" id="goodComment"
+                                                               checked="checked" onchange="onChecked(this.id);" />
+                                                        <span class="check"></span>
+                                                        好评
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="span2">
+                                                <div class="input-control radio default-style" data-role="input-control">
+                                                    <label>
+                                                        <input class="radioButton" type="radio" id="mediumComment"
+                                                               onchange="onChecked(this.id);" />
+                                                        <span class="check"></span>
+                                                        中评
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="span2">
+                                                <div class="input-control radio default-style" data-role="input-control">
+                                                    <label>
+                                                        <input class="radioButton" type="radio" id="badComment"
+                                                               onchange="onChecked(this.id);" />
+                                                        <span class="check"></span>
+                                                        差评
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="span4" id="commentContainer1" style="display: none">
+                                                <div class="panel">
+                                                    <div class="panel-header comment" style="background-color: #81c784">
+                                                        <div id="user1" class="headersContent"></div>
+                                                        <div class="rating"
+                                                             id="rating1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <p id="comment1"></p>
+                                                        <p id="date1" class="commentDate"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="span4" id="commentContainer2" style="display: none">
+                                                <div class="panel">
+                                                    <div class="panel-header comment" style="background-color: #81c784">
+                                                        <div id="user2" class="headersContent"></div>
+                                                        <div class="rating"
+                                                             id="rating2">
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <p id="comment2"></p>
+                                                        <p id="date2" class="commentDate"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="span4" id="commentContainer3" style="display: none">
+                                                <div class="panel">
+                                                    <div class="panel-header comment" style="background-color: #81c784">
+                                                        <div id="user3" class="headersContent"></div>
+                                                        <div class="rating"
+                                                             id="rating3">
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-content">
+                                                        <p id="comment3"></p>
+                                                        <p id="date3" class="commentDate"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+}

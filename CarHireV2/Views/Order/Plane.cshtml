@@ -1,0 +1,157 @@
+﻿@model CarHireV2.Models.PlaneViewModel
+@{
+    ViewBag.Title = "接机服务";
+}
+@section LoadCSS{
+    @Styles.Render("~/Content/css/select/page-select.css")
+}
+@section LoadJS{
+    @Scripts.Render("~/Content/js/metro/metro-carousel.js")
+    @Scripts.Render("~/Content/js/metro/metro-datepicker.js")
+    @Scripts.Render("~/Content/js/metro/metro-calendar.js")
+
+    @Scripts.Render("~/Content/js/carHire/plane.js")
+}
+@section BodyHandlers{
+    onresize="resize()" onload="readCookies()"
+}
+<div class="grid fluid">
+    <div id="selectContainer" class="no-space row">
+        <div class="span12">
+            <div class="row no-space">
+                <div class="span10 offset1">
+                    <div id="recommends" class="carousel" data-role="carousel">
+                        <div class="slide normalSlide">
+                            <div class="cover1">
+                                <img src="@Model.Property.PlaneImagePath1" />
+                            </div>
+                            <div class="description text">
+                                <h2 class="fg-white">@Model.Property.PlaneTitle1</h2>
+
+                                <p class="fg-white">
+                                    @Model.Property.PlaneDescription1
+                                </p>
+                            </div>
+                        </div>
+                        <div class="slide normalSlide">
+                            <div class="cover1">
+                                <img src="@Model.Property.PlaneImagePath2" />
+                            </div>
+                            <div class="description text">
+                                <h2 class="fg-white">@Model.Property.PlaneTitle2</h2>
+
+                                <p class="fg-white">
+                                    @Model.Property.PlaneDescription2
+                                </p>
+                            </div>
+                        </div>
+                        <a class="controls left">
+                            <i class="fa fa-angle-left">
+                            </i>
+                        </a><a class="controls right">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="no-space row">
+                <div class="row">
+                    <div class="span1 fixed">
+                        <div class="circle routeLight">
+                            <i class="fa fa-plane" id="airportNone" style="opacity: 1.0"></i>
+                            <i class="fa fa-check" id="airportOK" style="opacity: 0"></i>
+                        </div>
+                    </div>
+                    <div class="span6 fixed select routeLight">
+                        <h2>机场</h2>
+                        @foreach (var airport in Model.Airports)
+                        {
+                            var aiportStr = "airport" + airport.ID;
+                            <div class="selectTile selectAirportTile tile live" id="@aiportStr"
+                                 data-role="live-tile" data-effect="slideLeftRight" data-click="transform"
+                                 onclick=" tileSelected(this.id, false); ">
+                                <div class="tile-content">
+                                    <div class="full tile-content image">
+                                        <img src="@airport.ImagePath">
+                                    </div>
+                                    <div class="brand bg-dark">
+                                        <span class="label fg-white">@airport.Name</span>
+                                    </div>
+                                </div>
+                                <div class="tile-content tile-text">@airport.BasicInfo</div>
+                            </div>
+                        }
+                    </div>
+                    <div class="span1 fixed">
+                        <div class="circle dateLight">
+                            <i class="fa fa-calendar" id="timeNone" style="opacity: 1.0"></i>
+                            <i class="fa fa-check" id="timeOK" style="opacity: 0"></i>
+                        </div>
+                    </div>
+                    <div class="span3 fixed select dateLight">
+                        <h2>时间</h2>
+                        <p>日期</p>
+                        <div class="input-control text" id="date">
+                            <input type="text" id="dateInput">
+                            <button class="btn-date"></button>
+                        </div>
+                        <p>时间</p>
+                        <div class="input-control text" id="timeBorder">
+                            <input type="text" id="timeInput" onkeyup=" timeChanged(); ">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span1">
+                        <div class="circle noteLight">
+                            <i class="fa fa-pencil-square-o" id="noteNone" style="opacity: 1.0"></i>
+                            <i class="fa fa-check" id="noteOK" style="opacity: 0"></i>
+                        </div>
+                    </div>
+                    <div class="span10 select noteLight">
+                        <h2>备注</h2>
+                        <div id="noteBorder" class="input-control text">
+                            <input id="noteInput" type="text" value="" placeholder="选填，最大长度50字。" onkeyup="noteChanged();" />
+                            <button class="btn-clear"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span10 offset1">
+                    @if (Session["LoggedInUserID"] == null)
+                    {
+                        <div class="tile" id="rent" style="background-color:#eaeaea; color:#bebebe"
+                             onclick="loginOrRegAndSubmitOrder();">
+                            <img id="rentImageCar" src="/Images/RentImage.png" style="visibility: hidden" />
+                            <div id="rentMask" style="visibility: hidden"></div>
+                            <div id="rentText" class="text-center">登录并接机>></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tile" id="rent" style="background-color:#eaeaea; color:#bebebe"
+                             onclick="lastCheck();">
+                            <img id="rentImageCar" src="/Images/RentImage.png" style="visibility: hidden" />
+                            <div id="rentMask" style="visibility: hidden"></div>
+                            <div id="rentText" class="text-center">接机>></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $("#date").datepicker({
+            date: getNowDate(),
+            minDate: getNowDate(),
+            format: "yyyy-mm-dd",
+            weekStart: 1,
+            effect: "slide",
+            isStartDate: true
+        });
+        setTimeout(resize, 500);
+    </script>
+}

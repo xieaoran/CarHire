@@ -1,0 +1,232 @@
+﻿@using CarHireV2.Models;
+@model UserPanelViewModel
+@{
+    ViewBag.Title = "个人中心";
+}
+
+@section LoadCSS{
+    @Styles.Render("~/Content/css/userpanel/page-user-panel.css")
+}
+
+@section LoadJS{
+    @Scripts.Render("~/Content/js/carHire/user-panel.js")
+}
+
+@section BodyHandlers{
+
+}
+<div class="grid fluid">
+    <div class="row">
+        <div class="span10 offset1">
+            <div class="row">
+                <div class="span8 containers infoLight">
+                    <h1>
+                        用户信息<button class="large infoDark seeAll" onclick="changePasswordDialog();">修改密码</button>
+                    </h1>
+
+                    <div class="row">
+                        <div class="span12">
+                            <div class="panel infoBorder">
+                                <div class="panel-header infoDark">
+                                    <div class="headersContent">姓名</div>
+                                </div>
+                                <div class="panel-content">
+                                    <div id="changeNameBorder" class="input-control text">
+                                        <input id="changeName" type="text" placeholder="@Model.User.Name"
+                                               onkeyup="informationChanged();" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="span12">
+                            <div class="panel infoBorder">
+                                <div class="panel-header infoDark">
+                                    <div class="headersContent">手机</div>
+                                </div>
+                                <div class="panel-content">
+                                    <div id="changePhoneBorder" class="input-control text">
+                                        <input id="changePhone" type="text" placeholder="@Model.User.CellPhoneNumber"
+                                               onkeyup="informationChanged();" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="actions" class="row" style="display: none">
+                        <div class="span12">
+                            <button class="infoDark" onclick="changeInformation();">确认</button>
+                            <button>重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span11 offset1 containers orderLight">
+                    <h1>我的订单</h1>
+
+                    <div class="row">
+                        <div class="span12">
+                            <div class="tab-control" data-role="tab-control">
+                                <ul class="tabs">
+                                    <li class="active"><a href="#_page_1">租车订单</a></li>
+                                    <li><a href="#_page_2">接机订单</a></li>
+                                    <li><a href="#_page_3">历史订单</a></li>
+                                </ul>
+
+                                <div class="frames">
+                                    <div class="frame" id="_page_1">
+                                        <table class="table hovered">
+                                            <thead class="orderDark">
+                                                <tr>
+                                                    <th>订单号</th>
+                                                    <th>取车日期</th>
+                                                    <th>预约取车时间</th>
+                                                    <th>门店</th>
+                                                    <th>车型</th>
+                                                    <th>需要司机</th>
+                                                    <th>订金</th>
+                                                    <th>状态</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var currentOrder in Model.CurrentOrders)
+                                                {
+                                                    var dateStr = CommonHelpers.GetDate(currentOrder.DateTimeStart);
+                                                    var timeStr = CommonHelpers.GetTime(currentOrder.DateTimeStart);
+                                                    <tr>
+                                                        <td>@currentOrder.ID.ToString().PadLeft(8, '0')</td>
+                                                        <td>@dateStr</td>
+                                                        <td>@timeStr</td>
+                                                        <td>@currentOrder.Store.Name</td>
+                                                        <td>@currentOrder.Car.Name</td>
+                                                        @if (currentOrder.NeedDriver)
+                                                        {
+                                                            <td><i class="fa fa-check"></i></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><i class="fa fa-times"></i></td>
+                                                        }
+                                                        <td>@currentOrder.Car.Deposit.ToString("f2") 元</td>
+                                                        @switch (currentOrder.Condition)
+                                                        {
+                                                            case OrderCondition.PayWaiting:
+                                                                var payStr = "https://www.zuchefw.com/Order/PayOrder?orderID=" + currentOrder.ID;
+                                                                <td><a class="button orderDark" href="@payStr">现在支付</a></td>
+                                                                break;
+                                                            case OrderCondition.PaySuccess:
+                                                                <td>已支付</td>
+                                                                break;
+                                                            case OrderCondition.ConfirmSuccess:
+                                                                <td>已确认</td>
+                                                                break;
+                                                            case OrderCondition.HireSuccess:
+                                                                <td>已取车</td>
+                                                                break;
+                                                        }
+                                                    </tr>
+                                                }
+                                                <tr><td colspan="8">如需取消订单，请与我们取得联系。</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="frame" id="_page_2">
+                                        <table class="table hovered">
+                                            <thead class="orderDark">
+                                                <tr>
+                                                    <th>订单号</th>
+                                                    <th>日期</th>
+                                                    <th>时间</th>
+                                                    <th>机场</th>
+                                                    <th>状态</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var planeOrder in Model.PlaneOrders)
+                                                {
+                                                    var dateStr = CommonHelpers.GetDate(planeOrder.DateTimePlane);
+                                                    var timeStr = CommonHelpers.GetTime(planeOrder.DateTimePlane);
+                                                    var airportStr = planeOrder.Airport.Name;
+                                                    <tr>
+                                                        <td>@planeOrder.ID.ToString().PadLeft(8, '0')</td>
+                                                        <td>@dateStr</td>
+                                                        <td>@timeStr</td>
+                                                        <td>@airportStr</td>
+                                                        @switch (planeOrder.Condition)
+                                                        {
+                                                            case PlaneOrderCondition.ConfirmWaiting:
+                                                                <td>等待确认</td>
+                                                                break;
+                                                            case PlaneOrderCondition.ConfirmSuccess:
+                                                                <td>已确认</td>
+                                                                break;
+                                                            case PlaneOrderCondition.ArrivalSuccess:
+                                                                <td>已完成</td>
+                                                                break;
+                                                        }
+                                                    </tr>
+                                                }
+                                                <tr><td colspan="8">如需取消订单，请与我们取得联系。</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="frame" id="_page_3">
+                                        <table class="table hovered">
+                                            <thead class="orderDark">
+                                                <tr>
+                                                    <th>订单号</th>
+                                                    <th>取车日期</th>
+                                                    <th>预约取车时间</th>
+                                                    <th>门店</th>
+                                                    <th>车型</th>
+                                                    <th>需要司机</th>
+                                                    <th>评价</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var historyOrder in Model.HistoryOrders)
+                                                {
+                                                    var dateStr = CommonHelpers.GetDate(historyOrder.DateTimeStart);
+                                                    var timeStr = CommonHelpers.GetTime(historyOrder.DateTimeStart);
+                                                    <tr>
+                                                        <td>@historyOrder.ID.ToString().PadLeft(8, '0')</td>
+                                                        <td>@dateStr</td>
+                                                        <td>@timeStr</td>
+                                                        <td>@historyOrder.Store.Name</td>
+                                                        <td>@historyOrder.Car.Name</td>
+                                                        @if (historyOrder.NeedDriver)
+                                                        {
+                                                            <td><i class="fa fa-check"></i></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><i class="fa fa-times"></i></td>
+                                                        }
+                                                        @if (historyOrder.Comment == null)
+                                                        {
+                                                            <td><button class="orderDark" onclick="reviewDialog(@historyOrder.ID);">去评价</button></td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td><button class="orderDark" onclick="reviewDialog(@historyOrder.ID);">修改评价</button></td>
+                                                        }
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"></div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+
+}

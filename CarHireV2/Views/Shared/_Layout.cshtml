@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" />
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>@ViewBag.Title - 泓驰租车</title>
+    @Styles.Render("~/css/common")
+    @RenderSection("LoadCSS")
+    @Scripts.Render("~/js/jquery", "~/js/metro/common", "~/js/carHire/common")
+    @RenderSection("LoadJS")
+</head>
+<body class="metro" @RenderSection("BodyHandlers")>
+    <div id="page">
+        <header class="dark">
+            <nav class="navigation-bar fixed-top dark">
+                <div class="navigation-bar-content container">
+                    <span class="element-divider"></span>
+                    <a class="element" href="/Home/Index"> 泓驰租车</a>
+                    <span class="element-divider"></span>
+                    <a class="element" href="/Order/Select"><i class="fa fa-pencil"></i> 在线预约</a>
+                    <span class="element-divider"></span>
+                    <a class="element" href="/Order/Plane"><i class="fa fa-plane"></i> 接机服务</a>
+                    <span class="element-divider"></span>
+                    <a class="element" href="/Info/Car"><i class="fa fa-car"></i> 车型一览</a>
+                    <span class="element-divider"></span>
+                    <a class="element" href="/Home/About"><i class="fa fa-info-circle"></i> 关于我们</a>
+                    <span class="element-divider"></span>
+                    <span class="element-divider place-right"></span>
+                    @if (Session["LoggedInUserID"] == null)
+                    {
+                    <a class="element place-right" href="#" onclick="regDialog();">
+                        <i class="fa fa-user-plus"></i> 注册
+                    </a>
+                    <span class="element-divider place-right"></span>
+                    <a class="element place-right" href="#" onclick="loginDialog(false);">
+                        <i class="fa fa-sign-in"></i> 登录
+                    </a>
+                    <span class="element-divider place-right"></span>
+                    }
+                    else{
+                    <a class="element place-right" href="#" onclick="logOut();">
+                        <i class="fa fa-sign-out"></i> 注销
+                    </a>
+                    <span class="element-divider place-right"></span>
+                    <a class="element place-right" href="/User/UserPanel">
+                        <i class="fa fa-user"></i> @Session["LoggedInUserName"]
+                    </a>
+                    <span class="element-divider place-right"></span>
+                    }
+                </div>
+            </nav>
+        </header>
+        <div class="container" id="main">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+@RenderSection("Scripts", false)
+</html>

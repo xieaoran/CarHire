@@ -1,0 +1,253 @@
+﻿@model CarHireV2.Models.SelectViewModel
+@{
+    ViewBag.Title = "在线预约";
+}
+@section LoadCSS{
+    @Styles.Render("~/Content/css/select/page-select.css")
+}
+
+@section LoadJS{
+    @Scripts.Render("~/Content/js/metro/metro-carousel.js")
+    @Scripts.Render("~/Content/js/metro/metro-datepicker.js")
+    @Scripts.Render("~/Content/js/metro/metro-calendar.js")
+
+    @Scripts.Render("~/Content/js/carHire/select.js")
+}
+
+@section BodyHandlers{
+    onresize="resize()" onload="readCookies()"
+}
+<div class="grid fluid">
+    <div id="selectContainer" class="no-space row">
+        <div class="span12">
+            <div class="no-space row">
+                <div class="span10 offset1">
+                    <div id="recommends" class="carousel" data-role="carousel">
+                        @foreach (var carCarousel in Model.CarCarousel)
+                        {
+                            var rCarTypeStr = "RcarType" + carCarousel.ID;
+                            <div class="slide normalSlide">
+                                <div class="cover1">
+                                    <img src="@carCarousel.ImagePath" />
+                                </div>
+                                <div class="description text">
+                                    <h2 class="fg-white">@carCarousel.Name</h2>
+
+                                    <p class="fg-white">
+                                        @carCarousel.BasicInfo
+                                    </p>
+                                    <button class="large carsDark" id="@rCarTypeStr"
+                                            onclick=" recommendSelected(this.id); ">
+                                        就是它了
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                        <a class="controls left">
+                            <i class="fa fa-angle-left">
+                            </i>
+                        </a><a class="controls right">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="no-space row">
+                <div class="row">
+                    <div class="span1 fixed">
+                        <div class="circle carsLight">
+                            <i class="fa fa-car" id="carTypeNone" style="opacity:1.0"></i>
+                            <i class="fa fa-check" id="carTypeOK" style="opacity:0"></i>
+                        </div>
+                    </div>
+                    <div class="span3 fixed select carsLight">
+
+                        <h2>已选择车型</h2>
+
+                        <div class="selectedTile selectedCarTypeTile tile" id="carTypeSelected">
+                            <div class="tile-content">
+                                <div class="full tile-content image">
+                                    <img id="carImageSelected">
+                                </div>
+                                <div class="brand bg-dark">
+                                    <span class="label fg-white" id="carNameSelected"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span7 fixed select carsLight">
+                        <h2>车型<a class="button carsDark seeAll" href="/Info/Car">查看更多</a></h2>
+
+                        @foreach (var car in Model.CarList)
+                        {
+                            var carTypeStr = "carType" + car.ID;
+                            var carImageStr = "carImage" + car.ID;
+                            var carNameStr = "carName" + car.ID;
+                            var carInfoStr = "carInfo" + car.ID;
+                            <div class="selectTile selectCarTypeTile tile live" id="@carTypeStr"
+                                 data-role="live-tile" data-effect="slideUpDown" data-click="transform"
+                                 onclick="tileSelected(this.id,false);">
+                                <div class="tile-content">
+                                    <div class="full tile-content image">
+                                        <img id="@carImageStr" src="@car.ImagePath">
+                                    </div>
+                                    <div class="brand bg-dark">
+                                        <span class="label fg-white" id="@carNameStr">@car.Name</span>
+                                    </div>
+                                </div>
+                                <div class="tile-content tile-text" id="@carInfoStr">@car.BasicInfo</div>
+                            </div>
+                        }
+                    </div>
+                    <div class="span1 fixed"></div>
+                </div>
+                <div class="row">
+                    <div class="span1 fixed">
+                        <div class="circle routeLight">
+                            <i class="fa fa-university" id="placeNone" style="opacity:1.0"></i>
+                            <i class="fa fa-check" id="placeOK" style="opacity:0"></i>
+                        </div>
+                    </div>
+                    <div class="span3 fixed select routeLight">
+                        <h2>已选择店面</h2>
+
+                        <div class="selectedTile selectedPlaceTile tile" id="placeSelected">
+                            <div class="tile-content">
+                                <div class="full tile-content image">
+                                    <img id="placeImageSelected">
+                                </div>
+                                <div class="brand bg-dark">
+                                    <span class="label fg-white" id="placeNameSelected"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span7 fixed select routeLight">
+                        <h2>店面</h2>
+
+                        @foreach (var store in Model.StoreList)
+                        {
+                            var placeStr = "place" + store.ID;
+                            var placeImageStr = "placeImage" + store.ID;
+                            var placeNameStr = "placeName" + store.ID;
+                            var placeInfoStr = "placeInfo" + store.ID;
+                            <div class="selectTile selectPlaceTile tile live" id="@placeStr"
+                                 data-role="live-tile" data-effect="slideLeftRight" data-click="transform"
+                                 onclick="tileSelected(this.id,false);">
+                                <div class="tile-content">
+                                    <div class="full tile-content image">
+                                        <img id="@placeImageStr" src="@store.ImagePath">
+                                    </div>
+                                    <div class="brand bg-dark">
+                                        <span id="@placeNameStr" class="label fg-white">@store.Name</span>
+                                    </div>
+                                </div>
+                                <div class="tile-content tile-text" id="@placeInfoStr">@store.BasicInfo</div>
+                            </div>
+                        }
+                    </div>
+                    <div class="span1 fixed"></div>
+                </div>
+                <div class="row">
+                    <div class="span1 fixed">
+                        <div class="circle dateLight">
+                            <i class="fa fa-clock-o" id="timeNone" style="opacity:1.0"></i>
+                            <i class="fa fa-check" id="timeOK" style="opacity:0"></i>
+                        </div>
+                    </div>
+                    <div class="span3 fixed select dateLight">
+                        <h2>日期</h2>
+
+                        <p>取车日期</p>
+
+                        <div class="input-control text" id="startDate">
+                            <input type="text" id="startDateInput">
+                            <button class="btn-date"></button>
+                        </div>
+                        <p>预约取车时间</p>
+                        <div class="input-control text" id="startTime">
+                            <input type="text" id="startTimeInput" onkeyup=" timeChanged(); ">
+                        </div>
+                    </div>
+                    <div class="span1 fixed">
+                        <div class="circle extraLight">
+                            <i class="fa fa-cog" style="opacity: 1.0"></i>
+                        </div>
+                    </div>
+                    <div class="span6 fixed select extraLight">
+                        <h2>选项</h2>
+
+                        <p>需要司机</p>
+
+                        <div class="input-control switch">
+                            <label>
+                                <input type="checkbox" id="driverToggle" onchange=" toggleDriver(); "/>
+                                <span class="check"></span>
+                            </label>
+                        </div>
+                        <p>人工确认</p>
+
+                        <div class="input-control switch">
+                            <label>
+                                <input type="checkbox" id="manualConfirmToggle"/>
+                                <span class="check"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span1">
+                        <div class="circle noteLight">
+                            <i class="fa fa-pencil-square-o" id="noteNone" style="opacity: 1.0"></i>
+                            <i class="fa fa-check" id="noteOK" style="opacity: 0"></i>
+                        </div>
+                    </div>
+                    <div class="span10 select noteLight">
+                        <h2>备注</h2>
+                        <div id="noteBorder" class="input-control text">
+                            <input id="noteInput" type="text" value="" placeholder="选填，最大长度50字。" onkeyup="noteChanged();" />
+                            <button class="btn-clear"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="span10 offset1">
+                    @if (Session["LoggedInUserID"] == null)
+                    {
+                        <div class="tile" id="rent" style="background-color:#eaeaea; color:#bebebe"
+                             onclick="loginOrRegAndSubmitOrder();">
+                            <img id="rentImageCar" src="/Images/RentImage.png" style="visibility: hidden" />
+                            <div id="rentMask" style="visibility: hidden"></div>
+                            <div id="rentText" class="text-center">登录并出发>></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tile" id="rent" style="background-color:#eaeaea; color:#bebebe"
+                             onclick="lastCheck();">
+                            <img id="rentImageCar" src="/Images/RentImage.png" style="visibility: hidden" />
+                            <div id="rentMask" style="visibility: hidden"></div>
+                            <div id="rentText" class="text-center">出发>></div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#startDate").datepicker({
+            date: getNowDate(),
+            minDate: getNowDate(),
+            format: "yyyy-mm-dd",
+            weekStart: 1,
+            effect: "slide",
+            isStartDate: true
+        });
+        setTimeout(resize, 500);
+    </script>
+}
